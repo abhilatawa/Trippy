@@ -6,6 +6,8 @@ const crypto = require('crypto');
 const emailService = require('../services/emailService');
 const nodemailer = require('nodemailer');
 
+require('dotenv').config();
+
 exports.registerUser = async ({
   firstName,
   lastName,
@@ -75,6 +77,7 @@ exports.registerUser = async ({
     const token = jwt.sign(payload, process.env.JWT_SECRET, {
       expiresIn: '1h', // 1 hour token expiration
     });
+    console.log('Generated JWT:', token);
 
     // Send email for successful registration
     const mailOptions = {
@@ -126,7 +129,7 @@ exports.loginUser = async ({ email, password }) => {
       subject: 'Login Successful',
       text: `Hello ${user.firstName},\n\nYou have successfully logged in.\n\nBest Regards,\nTrippy`,
     };
-    await emailService.sendEmail(mailOptions);
+    //await emailService.sendEmail(mailOptions);
     return { user, token };
   } catch (error) {
     console.error('Error while logging in user:', error.message);
@@ -142,6 +145,7 @@ exports.forgotPassword = async (email) => {
     }
 
     const token = crypto.randomBytes(32).toString('hex');
+    console.log(token);
     user.resetPasswordToken = token;
     user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
     await user.save();
