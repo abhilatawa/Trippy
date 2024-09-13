@@ -129,7 +129,7 @@ exports.loginUser = async ({ email, password }) => {
       subject: 'Login Successful',
       text: `Hello ${user.firstName},\n\nYou have successfully logged in.\n\nBest Regards,\nTrippy`,
     };
-    //await emailService.sendEmail(mailOptions);
+    await emailService.sendEmail(mailOptions);
     return { user, token };
   } catch (error) {
     console.error('Error while logging in user:', error.message);
@@ -150,13 +150,13 @@ exports.forgotPassword = async (email) => {
     user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
     await user.save();
 
-    // const transporter = nodemailer.createTransport({
-    //   service: 'Gmail',
-    //   auth: {
-    //     user: process.env.EMAIL_ADDRESS,
-    //     pass: process.env.EMAIL_PASSWORD,
-    //   },
-    // });
+    const transporter = nodemailer.createTransport({
+      service: 'Gmail',
+      auth: {
+        user: process.env.EMAIL_ADDRESS,
+        pass: process.env.EMAIL_PASSWORD,
+      },
+    });
 
     const mailOptions = {
       to: user.email,
