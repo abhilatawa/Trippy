@@ -99,7 +99,7 @@ const Login = () => {
       <Container maxWidth="sm" disableGutters>
         <Box textAlign="center" my={8}>
           <Typography variant="h5" component="h2" gutterBottom>
-            Sign in to your account
+            Log in to your account
           </Typography>
         </Box>
         {isLoading ? (
