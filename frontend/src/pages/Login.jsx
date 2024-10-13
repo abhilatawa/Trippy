@@ -107,7 +107,7 @@ const Login = () => {
             <CircularProgress />
           </Box>
         ) : (
-          <Box
+          Box
             component="form"
             onSubmit={handleSubmit}
             noValidate
